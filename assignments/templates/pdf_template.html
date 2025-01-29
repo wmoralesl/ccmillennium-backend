@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 8px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h1>Calificaciones de Estudiantes</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Estudiante</th>
+                <th>Tarea</th>
+                <th>Calificación</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students_grades.values %}
+                {% for grade in student.grades %}
+                    <tr>
+                        <td>{{ student.student.get_full_name }}</td>
+                        <td>{{ grade.assignment }}</td>
+                        <td>{{ grade.grade }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

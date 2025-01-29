@@ -1,11 +1,10 @@
-from rest_framework.views import APIView
+from datetime import datetime
+from django.utils.timezone import now
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from django.db.models import Count
 from users.models import User
 from courses.models import Course, Group
 from payments.models import Payment
-from django.utils.timezone import now
 from rest_framework.decorators import api_view
 
 
@@ -24,11 +23,13 @@ def dashboard_data(request):
     months_labels = []
 
     for i in range(6):
-        month = (current_month - i) % 12 or 12
-        year = now().year - ((current_month - i - 1) // 12)
+        month = (current_month - i - 1) % 12 + 1
+        year = now().year - ((current_month - i - 1) < 0)
         users_count = User.objects.filter(date_joined__month=month, date_joined__year=year).count()
+        # Cambiar el día a 1 para evitar el error
+        month_name = datetime(year=year, month=month, day=1).strftime('%B')
         users_per_month.append(users_count)
-        months_labels.append(now().replace(month=month).strftime('%B'))  # Etiquetas de meses en formato de texto
+        months_labels.append(month_name)
 
     # Estudiantes por curso
     courses_distribution = Course.objects.annotate(

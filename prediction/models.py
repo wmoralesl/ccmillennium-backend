@@ -5,6 +5,7 @@ class Prediction(models.Model):
     prediction_value = models.FloatField()          # Valor de la predicción
     image = models.ImageField(upload_to='predictions/', blank=True, null=True)  # Imagen opcional
     is_acepted = models.BooleanField(default=False)
+    is_reviewed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)  # Fecha de creación
 
     def __str__(self):

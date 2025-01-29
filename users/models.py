@@ -29,7 +29,8 @@ class User(AbstractUser):
     address = models.CharField(max_length=255, null=True, blank=True)
     username = models.CharField(max_length=255, unique=True, null=True, blank=True)
     is_active = models.BooleanField(default=True)
-
+    password = models.CharField(max_length=128, blank=True, null=True)
+    
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'second_last_name', 'role']
 
@@ -45,8 +46,13 @@ class User(AbstractUser):
             if os.path.isfile(old_user.photo.path):
                 os.remove(old_user.photo.path)
 
+        # Generar un nombre de usuario único si no existe
         if not self.username:
             self.username = generate_unique_username(self)
+        
+        # Asignar el username como contraseña si no hay una contraseña establecida
+        if not self.password:
+            self.set_password(self.username)
 
         super().save(*args, **kwargs)
 

@@ -3,9 +3,10 @@ from .models import Assignment, Submission, Content
 
 class AssignmentSerializer(serializers.ModelSerializer):
     module_name = serializers.CharField(source='module.name',  read_only=True)
+    module_id = serializers.CharField(source='module.id',  read_only=True)
     class Meta:
         model = Assignment
-        fields = ['id', 'title', 'description', 'created_at', 'file', 'module', 'group', 'module_name', 'due_date', 'grade']
+        fields = ['id', 'title', 'description', 'created_at', 'file', 'module', 'group', 'module_name', 'due_date', 'grade', 'module_id']
 
 class SubmissionSerializer(serializers.ModelSerializer):
     class Meta:
